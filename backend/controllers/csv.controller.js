@@ -19,10 +19,11 @@ const upload = async (req, res) => {
       })
       .on("data", (row) => {
         csvfiles.push(row);
-        console.log(row)
+        console.log(row);
       })
       .on("end", () => {
-        csvfile.bulkCreate(csvfiles)
+        csvfile
+          .bulkCreate(csvfiles)
           .then(() => {
             res.status(200).send({
               message:
@@ -45,7 +46,8 @@ const upload = async (req, res) => {
 };
 
 const getcsvfiles = (req, res) => {
-  csvfile.findAll()
+  csvfile
+    .findAll()
     .then((data) => {
       res.send(data);
     })
@@ -59,5 +61,5 @@ const getcsvfiles = (req, res) => {
 
 module.exports = {
   upload,
-  getcsvfiles
+  getcsvfiles,
 };
