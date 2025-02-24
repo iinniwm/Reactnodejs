@@ -5,14 +5,15 @@ const csv = require("fast-csv");
 
 const upload = async (req, res) => {
   try {
-    if (req.file == undefined) {
+    const filePath = req.body.filePath || (__basedir + "/backend/uploads/" + req.file.filename);
+
+    if (!filePath) {
       return res.status(400).send("Please upload a CSV file!");
     }
 
     let csvfiles = [];
-    let path = __basedir + "/backend/uploads/" + req.file.filename;
 
-    fs.createReadStream(path)
+    fs.createReadStream(filePath)
       .pipe(csv.parse({ headers: true }))
       .on("error", (error) => {
         throw error.message;
